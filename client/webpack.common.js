@@ -9,7 +9,7 @@ const BrotliPlugin = require('brotli-webpack-plugin');
 const webpack = require('webpack');
 module.exports={
     
-    entry:["./src/index.js"],
+    entry:["./src/index.tsx"],
     plugins:[
         new HtmlWebPackPlugin({
             title:'Caching',
@@ -60,7 +60,8 @@ module.exports={
       },
     
     resolve:{
-        extensions:['.js','.jsx','.css','.ts','.svg','*.svg'],
+        alias: {      '@': path.resolve(__dirname, 'src'),    },
+        extensions:['.js','.jsx','.css','.ts','.tsx','.svg','*.svg'],
         // modules:['node_modules'],
     },
 
@@ -68,7 +69,7 @@ module.exports={
         rules:[
 
             {
-                test:/\.(js|jsx)$/,
+                test:/\.(ts|js)x?$/,
                 exclude:[path.join(__dirname,'node_modules'),],
                 
                use:[{
@@ -76,8 +77,8 @@ module.exports={
                     options:{
                         presets:[
                             '@babel/preset-env',
-                            
-                            '@babel/preset-react'
+                            '@babel/preset-react',
+                            '@babel/preset-typescript'
                         ],
                         plugins: [
                             [
@@ -85,8 +86,11 @@ module.exports={
                                 {
                                   corejs: 3,
                                   proposals: true,
+                                  useESmodules:true,
                                 },
+
                               ],
+                              ["babel-plugin-styled-components"],
                             ['import',{libraryName:'antd', style:true}],   
                         ]
                     }
